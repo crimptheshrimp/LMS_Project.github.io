@@ -1,13 +1,13 @@
 
-
-import { useState, useEffect } from 'react';
+import Link from 'react'
+import { useState } from 'react';
 
 const HomePage = () => {
-    const [userRole, setUserRole] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [userRole, setUserRole] = useState('teacher'); // Default role for demonstration purposes');
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    {/*useEffect(() => {
         // Fetch user permissions from placeholder API
         const fetchUserPermissions = async () => {
             try {
@@ -33,7 +33,7 @@ const HomePage = () => {
         };
 
         fetchUserPermissions();
-    }, []);
+    }, []);*/}
 
     const renderContent = () => {
         if (loading) {
@@ -59,7 +59,7 @@ const HomePage = () => {
                     <div>
                         <h3>Teacher Dashboard</h3>
                         <p>You can create courses, manage students, and grade assignments.</p>
-                        <a href="/addCourse" style={{ color: '#007bff', textDecoration: 'none' }}>+ Add New Course</a>
+                        <a to="/addCourse">+ Add New Course</a>
                     </div>
                 )}
 
@@ -68,9 +68,9 @@ const HomePage = () => {
                         <h3>Administrator Dashboard</h3>
                         <p>You have full access to all system features and user management.</p>
                         <ul>
-                            <li><a href="/addCourse" style={{ color: '#007bff', textDecoration: 'none' }}>Manage Courses</a></li>
-                            <li><a href="/manageUsers" style={{ color: '#007bff', textDecoration: 'none' }}>Manage Users</a></li>
-                            <li><a href="/systemSettings" style={{ color: '#007bff', textDecoration: 'none' }}>System Settings</a></li>
+                            <li><a to="/addCourse">Manage Courses</a></li>
+                            <li><a href="/manageUsers">Manage Users</a></li>
+                            <li><a href="/systemSettings">System Settings</a></li>
                         </ul>
                     </div>
                 )}

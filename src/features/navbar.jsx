@@ -1,34 +1,51 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { canAccessAddCourse, canAccessManageUsers } from './permissions';
 
 function Navbar() {
-  const navStyle = {
-    display: 'flex',
-    gap: '2rem',
-    alignItems: 'center',
-    backgroundColor: '#396ea7',
-    padding: '1rem 2rem',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-  };
-
-  const linkStyle = {
-    color: 'white',
-    textDecoration: 'none',
-    fontSize: '1rem',
-    fontWeight: '500',
-    padding: '0.5rem 1rem',
-    borderRadius: '4px',
-    transition: 'backgroundColor 0.3s ease',
-  };
+  const { user, userRole, isAuthenticated, logout } = useAuth();
+  const showAddCourseLink = canAccessAddCourse(userRole);
 
   return (
-    <div id='navbar'>
-        <nav style={navStyle}>
-          <Link to="/" style={linkStyle} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.2)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>Home</Link>
-          <Link to="/register" style={linkStyle} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.2)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>Register</Link>
-          <Link to="/login" style={linkStyle} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.2)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>Login</Link>
-        </nav>
+    <div id="navbar" className="navbar">
+      <nav className="navbar-inner">
+        <div className="navbar-brand">LMS</div>
+        <Link to="/" className="navbar-link">
+          Home
+        </Link>
+
+        {!isAuthenticated && (
+          <>
+            <Link to="/register" className="navbar-link">
+              Register
+            </Link>
+            <Link to="/login" className="navbar-link">
+              Login
+            </Link>
+          </>
+        )}
+
+        {isAuthenticated && (
+          <>
+            {showAddCourseLink && (
+              <Link to="/addCourse" className="navbar-link">
+                Add Course
+              </Link>
+            )}
+            {canAccessManageUsers(userRole) && (
+              <Link to="/manageUsers" className="navbar-link">
+                Manage Users
+              </Link>
+            )}
+            <button type="button" className="navbar-link navbar-button" onClick={logout}>
+              Logout
+            </button>
+            <span className="navbar-user">Hi, {user?.username}</span>
+          </>
+        )}
+      </nav>
     </div>
-  )
+  );
 }
 
 export default Navbar;

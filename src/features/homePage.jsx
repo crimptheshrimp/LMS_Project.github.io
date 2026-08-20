@@ -1,100 +1,93 @@
-
-import Link from 'react'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import CourseView from './courseView';
+import { fetchCourses } from '../api/api';
+import { useAuth } from '../context/AuthContext';
 
 const HomePage = () => {
-    const [userRole, setUserRole] = useState('teacher'); // Default role for demonstration purposes');
-    const [loading, setLoading] = useState(false);
+    const { userRole } = useAuth();
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    {/*useEffect(() => {
-        // Fetch user permissions from placeholder API
-        const fetchUserPermissions = async () => {
+    useEffect(() => {
+        const loadCourses = async () => {
             try {
-                setLoading(true);
-                // Replace with your actual API endpoint
-                const response = await fetch('/api/user/permissions');
-                
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user permissions');
-                }
-
-                const data = await response.json();
-                setUserRole(data.role); // Expected: 'student', 'teacher', or 'admin'
-                setError(null);
+                const data = await fetchCourses();
+                setCourses(data);
             } catch (err) {
-                console.error('Error fetching permissions:', err);
-                setError(err.message);
-                // Fallback to 'student' role if API fails
-                setUserRole('student');
+                setError(err.message || 'Unable to load courses');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchUserPermissions();
-    }, []);*/}
+        loadCourses();
+    }, []);
 
     const renderContent = () => {
         if (loading) {
-            return <p>Loading user permissions...</p>;
+            return <p>Loading courses and permissions...</p>;
         }
 
         if (error) {
-            return <p style={{ color: 'red' }}>Error: {error}. Proceeding as student.</p>;
+            return <p className="error">Error: {error}. Showing the course catalog anyway.</p>;
         }
 
         return (
             <>
-                <p style={{ color: '#007bff', fontWeight: 'bold' }}>Your Role: {userRole.charAt(0).toUpperCase() + userRole.slice(1)}</p>
-                
+            <div className="dashboard-grid">
                 {userRole === 'student' && (
-                    <div>
+                    <div className="dashboard-card">
                         <h3>Student Dashboard</h3>
-                        <p>You can enroll in courses and track your progress.</p>
+                        <p>You can browse available courses and track your progress.</p>
                     </div>
                 )}
 
-                {userRole === 'teacher' && (
-                    <div>
-                        <h3>Teacher Dashboard</h3>
-                        <p>You can create courses, manage students, and grade assignments.</p>
-                        <a to="/addCourse">+ Add New Course</a>
+                {userRole === 'instructor' && (
+                    <div className="dashboard-card">
+                        <h3>Instructor Dashboard</h3>
+                        <p>You can create courses, manage content, and help students learn.</p>
+                        <ul>
+                            <li><Link to="/addCourse">+ Add New Course</Link></li>
+                        </ul>
                     </div>
                 )}
 
                 {userRole === 'admin' && (
-                    <div>
+                    <div className="dashboard-card">
                         <h3>Administrator Dashboard</h3>
                         <p>You have full access to all system features and user management.</p>
                         <ul>
-                            <li><a to="/addCourse">Manage Courses</a></li>
-                            <li><a href="/manageUsers">Manage Users</a></li>
-                            <li><a href="/systemSettings">System Settings</a></li>
+                            <li><Link to="/manageUsers">Manage Users</Link></li>
+                            <li><Link to="/systemSettings">System Settings</Link></li>
                         </ul>
                     </div>
                 )}
-            </>
-        );
+            </div>
+        </>
+    );
     };
 
     return (
-        <div style={{ maxWidth: '800px', margin: '2rem auto', padding: '2rem' }}>
-            <h1>Welcome to the Learning Management System!</h1>
-            <p>This is the home page of the LMS. Please register or log in to access your courses.</p>
-            <br />
-            
+        <div className="page-wrapper dashboard-shell">
+            <header className="hero-panel">
+                <div>
+                    <p className="eyebrow">Learning Management System</p>
+                    <h1>Welcome to your learning hub</h1>
+                </div>
+                <div className="role-badge">Your role: {userRole.charAt(0).toUpperCase() + userRole.slice(1)}</div>
+            </header>
+
             {renderContent()}
 
-            <br />
-            <h2>Available Courses:</h2>
-            <ul>
-                <li>Course 1</li>
-                <li>Course 2</li>
-                <li>Course 3</li>
-            </ul>
-        </div>
-    );
+            <section className="course-section">
+                <div className="section-header">
+                    <h2>Available Courses</h2>
+                    <span className="section-pill">Catalog</span>
+                </div>
+                <CourseView courses={courses} />
+            </section>
 };
 
 export default HomePage;

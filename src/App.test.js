@@ -1,8 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { canAccessAddCourse } from './features/permissions';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('shows the add course link for instructor and admin users', () => {
+  expect(canAccessAddCourse('instructor')).toBe(true);
+  expect(canAccessAddCourse('admin')).toBe(true);
+  expect(canAccessAddCourse('student')).toBe(false);
 });

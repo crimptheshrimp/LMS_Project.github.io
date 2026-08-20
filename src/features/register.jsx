@@ -1,13 +1,27 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
+  const navigate = useNavigate();
+  const { register } = useAuth();
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [usernameError, setUsernameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [serverMessage, setServerMessage] = useState('');
 
   const validateInputs = () => {
     let isValid = true;
+
+    if (!username.trim()) {
+      setUsernameError(true);
+      isValid = false;
+    } else {
+      setUsernameError(false);
+    }
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setEmailError(true);
@@ -26,53 +40,76 @@ export default function Register() {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setServerMessage('');
+
     if (validateInputs()) {
-      console.log({
-        email: email,
-        password: password,
-      });
-      // Handle registration logic here
+      try {
+        await register(username, email, password);
+        setServerMessage('Registration successful. You can now log in.');
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        navigate('/login');
+      } catch (error) {
+        setServerMessage(error.message || 'Unable to register');
+      }
     }
   };
 
   return (
-    <div style={{ maxWidth: '450px', margin: '2rem auto', padding: '2rem' }}>
+    <div className="form-wrapper">
       <h1>Welcome to the Learning Management System!</h1>
-      <h2 style={{ marginBottom: '1rem', textAlign: 'center' }}>Register</h2>
-      <form onSubmit={handleSubmit} className='user-form' style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div>
+      <h2 className="center-text">Register</h2>
+      <form onSubmit={handleSubmit} className='user-form'>
+        <div className="form-group">
+          <input
+            id="username"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          {usernameError && <p className="error">Please enter a username.</p>}
+        </div>
+
+        <div className="form-group">
           <input
             id="email"
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
+            required
           />
-          {emailError && <p style={{ color: 'red', margin: '0.25rem 0' }}>Please enter a valid email address.</p>}
+          {emailError && <p className="error">Please enter a valid email address.</p>}
         </div>
 
-        <div>
+        <div className="form-group">
           <input
             id="password"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
+            required
           />
-          {passwordError && <p style={{ color: 'red', margin: '0.25rem 0' }}>Password must be at least 6 characters long.</p>}
+          {passwordError && <p className="error">Password must be at least 6 characters long.</p>}
         </div>
 
-        <button type="submit" style={{ padding: '0.75rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+        {serverMessage && (
+          <p className={serverMessage.includes('successful') ? 'success' : 'error'}>{serverMessage}</p>
+        )}
+
+        <button type="submit" className="primary-button">
           Register
         </button>
       </form>
 
-      <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-        Already have an account? <a href="/login">Login</a>
+      <p className="small-note">
+        Already have an account? <Link to="/login">Login</Link>
       </p>
     </div>
   );

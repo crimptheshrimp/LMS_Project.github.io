@@ -1,19 +1,24 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [serverError, setServerError] = useState('');
 
   const validateInputs = () => {
     let isValid = true;
 
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setEmailError(true);
+    if (!username.trim()) {
+      setUsernameError(true);
       isValid = false;
     } else {
-      setEmailError(false);
+      setUsernameError(false);
     }
 
     if (!password || password.length < 6) {
@@ -26,53 +31,56 @@ export default function Login() {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setServerError('');
+
     if (validateInputs()) {
-      console.log({
-        email: email,
-        password: password,
-      });
-      // Handle sign-in logic here
+      try {
+        await login(username, password);
+        navigate('/');
+      } catch (error) {
+        setServerError(error.message || 'Unable to log in');
+      }
     }
   };
 
   return (
-    <div style={{ maxWidth: '450px', margin: '2rem auto', padding: '2rem' }}>
+    <div className="form-wrapper">
       <h1>Welcome to the Learning Management System!</h1>
-      <h2 style={{ marginBottom: '1rem', textAlign: 'center' }}>Login</h2>
-      <form onSubmit={handleSubmit} className='user-form' style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div>
+      <h2 className="center-text">Login</h2>
+      <form onSubmit={handleSubmit} className='user-form'>
+        <div className="form-group">
           <input
-            id="email"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
+            id="username"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
-          {emailError && <p style={{ color: 'red', margin: '0.25rem 0' }}>Please enter a valid email address.</p>}
+          {usernameError && <p className="error">Please enter your username.</p>}
         </div>
         
-        <div>
+        <div className="form-group">
           <input
             id="password"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
           />
-          {passwordError && <p style={{ color: 'red', margin: '0.25rem 0' }}>Password must be at least 6 characters long.</p>}
+          {passwordError && <p className="error">Password must be at least 6 characters long.</p>}
         </div>
         
-        <button type="submit" style={{ padding: '0.75rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+        {serverError && <p className="error">{serverError}</p>}
+
+        <button type="submit" className="primary-button">
           Sign In
         </button>
       </form>
       
-      <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-        Don't have an account? <a href="/register">Register</a>
+      <p className="small-note">
+        Don't have an account? <Link to="/register">Register</Link>
       </p>
     </div>
   );

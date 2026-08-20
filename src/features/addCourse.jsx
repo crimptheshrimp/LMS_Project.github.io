@@ -1,36 +1,38 @@
 import { useState } from 'react';
+import { createCourse } from '../api/api';
 
 export default function AddCourse() {
   const [courseTitle, setCourseTitle] = useState('');
   const [description, setDescription] = useState('');
   const [estimatedLength, setEstimatedLength] = useState('');
+  const [serverMessage, setServerMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const courseData = {
-      title: courseTitle,
-      description: description,
-      estimatedLength: estimatedLength,
-    };
+    setServerMessage('');
 
-    console.log('Course Data:', courseData);
-    // TODO: Send courseData to API
-    // Example: await fetch('/api/courses', { method: 'POST', body: JSON.stringify(courseData) })
+    try {
+      const data = await createCourse({
+        title: courseTitle,
+        description,
+      });
 
-    // Reset form after submission
-    setCourseTitle('');
-    setDescription('');
-    setEstimatedLength('');
+      setServerMessage(`Course created successfully: ${data.title}`);
+      setCourseTitle('');
+      setDescription('');
+      setEstimatedLength('');
+    } catch (error) {
+      setServerMessage(error.message || 'Unable to create course');
+    }
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '2rem auto', padding: '2rem' }}>
+    <div className="page-wrapper">
       <h1>Add New Course</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <form onSubmit={handleSubmit} className="user-form">
         
-        <div>
-          <label htmlFor="courseTitle" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
+        <div className="form-group">
+          <label htmlFor="courseTitle" className="form-label">
             Course Title
           </label>
           <input
@@ -40,12 +42,11 @@ export default function AddCourse() {
             value={courseTitle}
             onChange={(e) => setCourseTitle(e.target.value)}
             required
-            style={{ width: '100%', padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px', fontSize: '1rem' }}
           />
         </div>
 
-        <div>
-          <label htmlFor="description" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
+        <div className="form-group">
+          <label htmlFor="description" className="form-label">
             Description
           </label>
           <textarea
@@ -55,12 +56,11 @@ export default function AddCourse() {
             onChange={(e) => setDescription(e.target.value)}
             required
             rows="5"
-            style={{ width: '100%', padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px', fontSize: '1rem', fontFamily: 'inherit' }}
           />
         </div>
 
-        <div>
-          <label htmlFor="estimatedLength" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
+        <div className="form-group">
+          <label htmlFor="estimatedLength" className="form-label">
             Estimated Length (hours)
           </label>
           <input
@@ -69,27 +69,16 @@ export default function AddCourse() {
             placeholder="Enter estimated length in hours"
             value={estimatedLength}
             onChange={(e) => setEstimatedLength(e.target.value)}
-            required
             min="0"
             step="0.5"
-            style={{ width: '100%', padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px', fontSize: '1rem' }}
           />
         </div>
 
-        <button
-          type="submit"
-          style={{
-            padding: '0.75rem',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            fontWeight: '500',
-            marginTop: '1rem',
-          }}
-        >
+        {serverMessage && (
+          <p className={serverMessage.includes('success') ? 'success' : 'error'}>{serverMessage}</p>
+        )}
+
+        <button type="submit" className="primary-button">
           Add Course
         </button>
       </form>

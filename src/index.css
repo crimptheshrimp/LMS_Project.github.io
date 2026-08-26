@@ -37,6 +37,11 @@ select {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+input[type='checkbox'] {
+  width: auto;
+  accent-color: #2563eb;
+}
+
 input:focus,
 textarea:focus,
 select:focus {

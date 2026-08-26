@@ -10,9 +10,22 @@ class CustomUser(AbstractUser):
     ]
 
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="student")
+    mobile_number = models.CharField(max_length=30, blank=True)
+    interests = models.TextField(blank=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.username
+
+
+class SubjectTag(models.Model):
+    name = models.CharField(max_length=80, unique=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
 
 
 class Course(models.Model):
@@ -23,6 +36,7 @@ class Course(models.Model):
         on_delete=models.CASCADE,
         related_name="courses_taught",
     )
+    tags = models.ManyToManyField(SubjectTag, blank=True, related_name="courses")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -68,3 +82,13 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.student.username} enrolled in {self.course.title}"
+
+
+class Notification(models.Model):
+    recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="notifications")
+    message = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["-created_at"]

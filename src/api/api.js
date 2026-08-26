@@ -79,6 +79,12 @@ export const login = (payload) => request('/login/', { method: 'POST', body: JSO
 export const logout = () => request('/logout/', { method: 'POST' });
 export const register = (payload) => request('/register/', { method: 'POST', body: JSON.stringify(payload) });
 export const fetchCurrentUser = () => request('/auth/user/');
+export const fetchProfile = () => request('/profile/');
+export const updateProfile = (payload) => request('/profile/', { method: 'PATCH', body: JSON.stringify(payload) });
+export const fetchNotifications = () => request('/notifications/');
+export const markNotificationRead = (notificationId) => request(`/notifications/${notificationId}/`, { method: 'PATCH', body: JSON.stringify({ read: true }) });
+export const fetchUsers = () => request('/users/');
+export const updateUserRole = (userId, role) => request(`/users/${userId}/role/`, { method: 'PATCH', body: JSON.stringify({ role }) });
 export const fetchCourses = () => request('/courses/');
 export const createCourse = (payload) => request('/courses/', { method: 'POST', body: JSON.stringify(payload) });
 export const enrollInCourse = (courseId) => request(`/courses/${courseId}/enroll/`, { method: 'POST' });

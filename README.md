@@ -210,3 +210,5 @@ This LMS project demonstrates a working full-stack application with Python, Djan
 - Django REST Framework Documentation
 - React Documentation
 - Create React App Documentation
+
+http://127.0.0.1:8000/admin/lms_app/customuser/?o=

@@ -7,6 +7,8 @@ import Login from './features/login';
 import Register from './features/register';
 import AddCourse from './features/addCourse';
 import RequireAuth from './components/RequireAuth';
+import Profile from './features/profile';
+import ManageUsers from './features/manageUsers';
 
 function App() {
   return (
@@ -22,6 +24,22 @@ function App() {
             element={
               <RequireAuth allowedRoles={['instructor', 'admin']}>
                 <AddCourse />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/manageUsers"
+            element={
+              <RequireAuth allowedRoles={['admin']}>
+                <ManageUsers />
               </RequireAuth>
             }
           />

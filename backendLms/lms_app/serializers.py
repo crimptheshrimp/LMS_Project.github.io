@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 
-from .models import AssignmentCourse, Course, CustomUser, Enrollment, LectureCourse, QuizCourse
+from .models import AssignmentCourse, Course, CustomUser, Enrollment, LectureCourse, Notification, QuizCourse, SubjectTag
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -21,6 +21,19 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ("id", "username", "email", "role", "mobile_number", "interests", "age")
+        read_only_fields = ("id", "username", "role")
+
+
+class UserRoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ("id", "username", "email", "role")
+
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
@@ -34,10 +47,16 @@ class LoginSerializer(serializers.Serializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     instructor = serializers.StringRelatedField(read_only=True)
+    tags = serializers.SlugRelatedField(
+        many=True,
+        queryset=SubjectTag.objects.all(),
+        required=False,
+        slug_field="name",
+    )
 
     class Meta:
         model = Course
-        fields = ("id", "title", "description", "instructor", "created_at")
+        fields = ("id", "title", "description", "instructor", "created_at", "tags")
 
 
 class LectureCourseSerializer(serializers.ModelSerializer):
@@ -62,3 +81,9 @@ class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrollment
         fields = ("id", "student", "course", "enrolled_at")
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ("id", "message", "created_at", "read")

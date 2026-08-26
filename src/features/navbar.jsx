@@ -9,7 +9,10 @@ function Navbar() {
   return (
     <div id="navbar" className="navbar">
       <nav className="navbar-inner">
-        <div className="navbar-brand">LMS</div>
+        <div className="navbar-brand">
+          <div className="logo-placeholder" aria-label="Logo placeholder">LH</div>
+          <span>LMS</span>
+        </div>
         <Link to="/" className="navbar-link">
           Home
         </Link>
@@ -40,7 +43,10 @@ function Navbar() {
             <button type="button" className="navbar-link navbar-button" onClick={logout}>
               Logout
             </button>
-            <span className="navbar-user">Hi, {user?.username}</span>
+            <Link to="/profile" className="navbar-user" aria-label="Open your profile">
+              <span className="user-icon" aria-hidden="true">{user?.username?.charAt(0).toUpperCase()}</span>
+              <span>Hi, {user?.username}</span>
+            </Link>
           </>
         )}
       </nav>

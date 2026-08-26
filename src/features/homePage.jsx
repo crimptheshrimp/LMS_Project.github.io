@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CourseView from './courseView';
-import { fetchCourses } from '../api/api';
+import { fetchCourses, fetchNotifications } from '../api/api';
 import { useAuth } from '../context/AuthContext';
 
 const HomePage = () => {
@@ -9,12 +9,19 @@ const HomePage = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
         const loadCourses = async () => {
             try {
-                const data = await fetchCourses();
-                setCourses(data);
+                const [courseData, notificationData] = await Promise.all([
+                    fetchCourses(),
+                    userRole === 'student' || userRole === 'instructor' || userRole === 'admin'
+                        ? fetchNotifications()
+                        : Promise.resolve([]),
+                ]);
+                setCourses(courseData);
+                setNotifications(notificationData);
             } catch (err) {
                 setError(err.message || 'Unable to load courses');
             } finally {
@@ -23,7 +30,7 @@ const HomePage = () => {
         };
 
         loadCourses();
-    }, []);
+    }, [userRole]);
 
     const renderContent = () => {
         if (loading) {
@@ -35,7 +42,6 @@ const HomePage = () => {
         }
 
         return (
-            <>
             <div className="dashboard-grid">
                 {userRole === 'student' && (
                     <div className="dashboard-card">
@@ -60,13 +66,11 @@ const HomePage = () => {
                         <p>You have full access to all system features and user management.</p>
                         <ul>
                             <li><Link to="/manageUsers">Manage Users</Link></li>
-                            <li><Link to="/systemSettings">System Settings</Link></li>
                         </ul>
                     </div>
                 )}
             </div>
-        </>
-    );
+        );
     };
 
     return (
@@ -81,6 +85,30 @@ const HomePage = () => {
 
             {renderContent()}
 
+            {userRole && (
+                <section className="notification-section" aria-labelledby="notifications-heading">
+                    <div className="section-header">
+                        <h2 id="notifications-heading">Notifications</h2>
+                        <span className="section-pill">{notifications.length}</span>
+                    </div>
+                    {notifications.length === 0 ? (
+                        <p className="empty-state">You are all caught up.</p>
+                    ) : (
+                        <div className="notification-list">
+                            {notifications.map((notification) => (
+                                <article className="notification-item" key={notification.id}>
+                                    <span className="notification-mark" aria-hidden="true" />
+                                    <div>
+                                        <p>{notification.message}</p>
+                                        <time dateTime={notification.created_at}>{new Date(notification.created_at).toLocaleDateString()}</time>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    )}
+                </section>
+            )}
+
             <section className="course-section">
                 <div className="section-header">
                     <h2>Available Courses</h2>
@@ -88,6 +116,8 @@ const HomePage = () => {
                 </div>
                 <CourseView courses={courses} />
             </section>
+        </div>
+    );
 };
 
 export default HomePage;

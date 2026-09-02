@@ -50,12 +50,11 @@ export default function Login() {
       <div className="brand-lockup" aria-label="LearningHub branding">
         <img src="/learninghub-logo.svg" alt="LearningHub logo" className="brand-mark brand-mark-large" />
         <div className="brand-wordmark brand-wordmark-large">
-          <span className="brand-light">learning</span>
-          <strong>hub</strong>
+          <span className="brand-light">LearningHub</span>
         </div>
       </div>
-      <h1>Welcome to the Learning Management System!</h1>
-      <h2 className="center-text">Login</h2>
+      <h1>Welcome back</h1>
+      <h2 className="center-text">Sign in</h2>
       <form onSubmit={handleSubmit} className='user-form'>
         <div className="form-group">
           <input
@@ -87,7 +86,7 @@ export default function Login() {
       </form>
 
       <p className="small-note">
-        Don't have an account? <Link to="/register">Register</Link>
+        Need an account? <Link to="/register">Create one</Link>
       </p>
     </div>
   );

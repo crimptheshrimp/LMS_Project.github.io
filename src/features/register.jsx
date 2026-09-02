@@ -63,11 +63,10 @@ export default function Register() {
       <div className="brand-lockup" aria-label="LearningHub branding">
         <img src="/learninghub-logo.svg" alt="LearningHub logo" className="brand-mark brand-mark-large" />
         <div className="brand-wordmark brand-wordmark-large">
-          <span className="brand-light">learning</span>
-          <strong>hub</strong>
+          <span className="brand-light">LearningHub</span>
         </div>
       </div>
-      <h1>Welcome to the Learning Management System!</h1>
+      <h1>Create your account</h1>
       <h2 className="center-text">Register</h2>
       <form onSubmit={handleSubmit} className='user-form'>
         <div className="form-group">
@@ -116,7 +115,7 @@ export default function Register() {
       </form>
 
       <p className="small-note">
-        Already have an account? <Link to="/login">Login</Link>
+        Already have an account? <Link to="/login">Sign in</Link>
       </p>
     </div>
   );

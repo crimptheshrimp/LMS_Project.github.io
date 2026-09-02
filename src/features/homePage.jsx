@@ -39,7 +39,7 @@ const HomePage = () => {
 
     const renderContent = () => {
         if (loading) {
-            return <p className="empty-state">Loading your LearningHub dashboard…</p>;
+            return <p className="empty-state">Loading your dashboard…</p>;
         }
 
         if (error) {
@@ -50,27 +50,27 @@ const HomePage = () => {
             <div className="dashboard-grid">
                 {userRole === 'student' && (
                     <div className="dashboard-card">
-                        <h3>Student Dashboard</h3>
-                        <p>You can browse available courses and track your progress.</p>
+                        <h3>Student dashboard</h3>
+                        <p>Browse classes, keep up with enrollment, and stay on top of the latest updates.</p>
                     </div>
                 )}
 
                 {userRole === 'instructor' && (
                     <div className="dashboard-card">
-                        <h3>Instructor Dashboard</h3>
-                        <p>You can create courses, manage content, and help students learn.</p>
+                        <h3>Instructor dashboard</h3>
+                        <p>Publish new courses, keep materials current, and support your learners.</p>
                         <ul>
-                            <li><Link to="/addCourse">+ Add New Course</Link></li>
+                            <li><Link to="/addCourse">+ Add a new course</Link></li>
                         </ul>
                     </div>
                 )}
 
                 {userRole === 'admin' && (
                     <div className="dashboard-card">
-                        <h3>Administrator Dashboard</h3>
-                        <p>You have full access to all system features and user management.</p>
+                        <h3>Administration</h3>
+                        <p>Review access, manage roles, and keep the platform running smoothly.</p>
                         <ul>
-                            <li><Link to="/manageUsers">Manage Users</Link></li>
+                            <li><Link to="/manageUsers">Manage users</Link></li>
                         </ul>
                     </div>
                 )}
@@ -82,9 +82,9 @@ const HomePage = () => {
         <div className="page-wrapper dashboard-shell">
             <header className="hero-panel">
                 <div className="hero-copy">
-                    <p className="eyebrow">Learning Management System</p>
-                    <h1>Welcome to your learning hub</h1>
-                    <p className="hero-subtitle">Discover, learn, and grow with a cleaner path to every course, update, and achievement.</p>
+                    <p className="eyebrow">Academic portal</p>
+                    <h1>Welcome back</h1>
+                    <p className="hero-subtitle">Find the right course, follow updates, and keep your learning moving forward.</p>
                 </div>
                 <div className="hero-side">
                     <div className="role-badge">{userRole?.charAt(0).toUpperCase() + userRole?.slice(1) || 'Student'} role</div>
@@ -99,7 +99,7 @@ const HomePage = () => {
             {userRole && (
                 <section className="notification-section" aria-labelledby="notifications-heading">
                     <div className="section-header">
-                        <h2 id="notifications-heading">Notifications</h2>
+                        <h2 id="notifications-heading">Announcements</h2>
                         <span className="section-pill">{notifications.length}</span>
                     </div>
                     {notifications.length === 0 ? (
@@ -122,7 +122,7 @@ const HomePage = () => {
 
             <section className="course-section">
                 <div className="section-header">
-                    <h2>Available Courses</h2>
+                    <h2>Available courses</h2>
                     <span className="section-pill">Catalog</span>
                 </div>
                 <CourseView courses={courses} />

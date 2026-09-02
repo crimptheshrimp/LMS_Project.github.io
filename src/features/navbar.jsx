@@ -11,9 +11,8 @@ function Navbar() {
       <nav className="navbar-inner">
         <Link to="/" className="navbar-brand" aria-label="LearningHub home page">
           <img src="/learninghub-logo.svg" alt="LearningHub logo" className="brand-mark" />
-          <span className="brand-wordmark">
-            <span className="brand-light">learning</span>
-            <strong>hub</strong>
+          <span className="brand-wordmark" aria-label="LearningHub">
+            <span className="brand-light">LearningHub</span>
           </span>
         </Link>
 

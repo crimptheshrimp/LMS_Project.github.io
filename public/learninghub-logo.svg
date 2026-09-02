@@ -1,0 +1,16 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Big Master: 40px and above on 128 grid -->
+  <!-- Stroke: 9/128 units -->
+  
+  <!-- Left stem drops below baseline and curls back inward about half the prior length -->
+  <path d="M 44 12 L 44 78 Q 44 88 54 94 Q 62 99 70 94" stroke="#10262B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- S-curve crossbar from left stem to right stem -->
+  <path d="M 44 44 Q 64 28 84 44" stroke="#10262B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- Right stem is shortened to about two-thirds while keeping the top anchored -->
+  <path d="M 84 12 L 84 78" stroke="#10262B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- Saffron node at the end of the left curl -->
+  <circle cx="74" cy="94" r="6.4" fill="#E9A13B"/>
+</svg>

@@ -59,7 +59,14 @@ export default function Register() {
   };
 
   return (
-    <div className="form-wrapper">
+    <div className="form-wrapper auth-wrapper">
+      <div className="brand-lockup" aria-label="LearningHub branding">
+        <img src="/learninghub-logo.svg" alt="LearningHub logo" className="brand-mark brand-mark-large" />
+        <div className="brand-wordmark brand-wordmark-large">
+          <span className="brand-light">learning</span>
+          <strong>hub</strong>
+        </div>
+      </div>
       <h1>Welcome to the Learning Management System!</h1>
       <h2 className="center-text">Register</h2>
       <form onSubmit={handleSubmit} className='user-form'>

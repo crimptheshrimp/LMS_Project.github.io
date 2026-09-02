@@ -5,7 +5,7 @@ import { fetchCourses, fetchNotifications } from '../api/api';
 import { useAuth } from '../context/AuthContext';
 
 const HomePage = () => {
-    const { userRole } = useAuth();
+    const { user, userRole } = useAuth();
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,14 +14,8 @@ const HomePage = () => {
     useEffect(() => {
         const loadCourses = async () => {
             try {
-                const [courseData, notificationData] = await Promise.all([
-                    fetchCourses(),
-                    userRole === 'student' || userRole === 'instructor' || userRole === 'admin'
-                        ? fetchNotifications()
-                        : Promise.resolve([]),
-                ]);
+                const courseData = await fetchCourses();
                 setCourses(courseData);
-                setNotifications(notificationData);
             } catch (err) {
                 setError(err.message || 'Unable to load courses');
             } finally {
@@ -30,11 +24,22 @@ const HomePage = () => {
         };
 
         loadCourses();
-    }, [userRole]);
+    }, []);
+
+    useEffect(() => {
+        if (!user) {
+            setNotifications([]);
+            return;
+        }
+
+        fetchNotifications()
+            .then(setNotifications)
+            .catch(() => setNotifications([]));
+    }, [user, userRole]);
 
     const renderContent = () => {
         if (loading) {
-            return <p>Loading courses and permissions...</p>;
+            return <p className="empty-state">Loading your LearningHub dashboard…</p>;
         }
 
         if (error) {
@@ -76,11 +81,17 @@ const HomePage = () => {
     return (
         <div className="page-wrapper dashboard-shell">
             <header className="hero-panel">
-                <div>
+                <div className="hero-copy">
                     <p className="eyebrow">Learning Management System</p>
                     <h1>Welcome to your learning hub</h1>
+                    <p className="hero-subtitle">Discover, learn, and grow with a cleaner path to every course, update, and achievement.</p>
                 </div>
-                <div className="role-badge">Your role: {userRole.charAt(0).toUpperCase() + userRole.slice(1)}</div>
+                <div className="hero-side">
+                    <div className="role-badge">{userRole?.charAt(0).toUpperCase() + userRole?.slice(1) || 'Student'} role</div>
+                    <div className="brand-mini">
+                        <img src="/learninghub-logo.svg" alt="LearningHub logo" />
+                    </div>
+                </div>
             </header>
 
             {renderContent()}

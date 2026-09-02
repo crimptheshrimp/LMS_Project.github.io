@@ -1,0 +1,16 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Small Master: under 40px on 64 grid -->
+  <!-- Stroke: 13/128 scaled to 64 = ~6.5 -->
+  <!-- Shortened stems, reduced crossbar amplitude, node dropped -->
+  
+  <!-- Left stem (shortened, reversed curl) -->
+  <path d="M 22 8 L 22 36 Q 22 42 27 46 Q 32 49 38 46" stroke="#10262B" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- Reduced crossbar amplitude -->
+  <path d="M 22 24 Q 32 16 42 24" stroke="#10262B" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- Right stem is shortened to about two-thirds while keeping the top anchored -->
+  <path d="M 42 8 L 42 36" stroke="#10262B" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- Node dropped - not visible at small sizes per spec -->
+</svg>

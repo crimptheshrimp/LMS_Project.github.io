@@ -8,9 +8,9 @@ html {
 
 body {
   margin: 0;
-  font-family: Inter, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(180deg, #edf4ff 0%, #f7f9fc 100%);
-  color: #0f172a;
+  font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(180deg, #f5f8fc 0%, #f9fafd 100%);
+  color: #10262B;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

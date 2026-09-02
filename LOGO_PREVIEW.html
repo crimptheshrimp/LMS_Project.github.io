@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearningHub Logo Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #FAF8F5;
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #10262B;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #52657a;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid rgba(16, 38, 43, 0.1);
+        }
+        
+        .section h2 {
+            color: #10262B;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E9A13B;
+        }
+        
+        .section p {
+            color: #52657a;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .logos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .logo-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            background: #FAF8F5;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 38, 43, 0.08);
+            gap: 0.75rem;
+        }
+        
+        .logo-item h3 {
+            color: #10262B;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .logo-item p {
+            font-size: 0.85rem;
+            color: #52657a;
+            text-align: center;
+            margin: 0;
+        }
+        
+        .logo-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 160px;
+            position: relative;
+        }
+        
+        .logo-display.dark {
+            background: #10262B;
+            border-radius: 8px;
+        }
+        
+        .logo-display svg {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .color {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .color-swatch {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            border: 2px solid rgba(16, 38, 43, 0.1);
+        }
+        
+        .color-info {
+            text-align: center;
+        }
+        
+        .color-info h4 {
+            color: #10262B;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        .color-info p {
+            font-size: 0.85rem;
+            color: #52657a;
+            margin: 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>learninghub</h1>
+        <p class="subtitle">Brand Logo Preview</p>
+        
+        <!-- Big Master Section -->
+        <div class="section">
+            <h2>Big Master (40px and above)</h2>
+            <p>Full stem heights with S-curve crossbar and detached saffron node. Use for lockups, print, splash screens, and marketing.</p>
+            <div class="logos">
+                <div class="logo-item">
+                    <div class="logo-display">
+                        <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 44 12 L 44 78 Q 44 88 54 94 Q 62 99 70 94" stroke="#10262B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 44 44 Q 64 28 84 44" stroke="#10262B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 84 12 L 84 78" stroke="#10262B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <circle cx="8" cy="118" r="6.4" fill="#E9A13B"/>
+                        </svg>
+                    </div>
+                    <h3>Mark Only</h3>
+                    <p>128×128px or larger</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="logo-display">
+                        <svg width="320" height="120" viewBox="0 0 320 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="120" rx="20" fill="#FAF8F5"/>
+                            <path d="M 32 16 L 32 60 Q 32 72 20 82 Q 14 87 8 84" stroke="#10262B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 32 38 Q 50 26 68 38" stroke="#10262B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 68 16 L 68 60 Q 68 72 80 82 Q 86 87 92 84" stroke="#10262B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <circle cx="4" cy="88" r="4.5" fill="#E9A13B"/>
+                            <text x="120" y="48" fill="#10262B" font-family="'Manrope'" font-size="18" font-weight="300" letter-spacing="0.4">learning</text>
+                            <text x="120" y="75" fill="#10262B" font-family="'Manrope'" font-size="24" font-weight="800" letter-spacing="-0.5">hub</text>
+                        </svg>
+                    </div>
+                    <h3>Boxed Lockup</h3>
+                    <p>320×120px</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Small Master Section -->
+        <div class="section">
+            <h2>Small Master (under 40px)</h2>
+            <p>Shortened stems with reduced crossbar amplitude. Node visibility dropped. Use for favicons, app tiles, and UI chrome.</p>
+            <div class="logos">
+                <div class="logo-item">
+                    <div class="logo-display">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 22 8 L 22 36 Q 22 46 14 52 Q 10 55 6 52" stroke="#10262B" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 22 24 Q 32 16 42 24" stroke="#10262B" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 42 8 L 42 36 Q 42 46 50 52 Q 54 55 58 52" stroke="#10262B" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                        </svg>
+                    </div>
+                    <h3>Small Mark</h3>
+                    <p>64×64px / 40px</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="logo-display dark">
+                        <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="96" height="96" rx="20" fill="#10262B"/>
+                            <path d="M 33 9 L 33 58 Q 33 69 21 81 Q 15 87 9 84" stroke="#FAF8F5" stroke-width="6.75" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 33 33 Q 48 21 63 33" stroke="#FAF8F5" stroke-width="6.75" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 63 9 L 63 58 Q 63 69 75 81 Q 81 87 87 84" stroke="#FAF8F5" stroke-width="6.75" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <circle cx="6" cy="89" r="4.8" fill="#E9A13B"/>
+                        </svg>
+                    </div>
+                    <h3>App Icon</h3>
+                    <p>96×96px (on dark background)</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lockup Section -->
+        <div class="section">
+            <h2>Horizontal Lockup</h2>
+            <p>Mark combined with wordmark in horizontal format. Perfect for headers and branding applications.</p>
+            <div class="logos">
+                <div class="logo-item" style="grid-column: 1 / -1;">
+                    <div class="logo-display" style="height: auto; padding: 1rem; border: 1px solid rgba(16, 38, 43, 0.1); border-radius: 8px;">
+                        <svg width="400" height="160" viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 44 20 L 44 72 Q 44 88 28 104 Q 20 112 12 108" stroke="#10262B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 44 44 Q 64 28 84 44" stroke="#10262B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <path d="M 84 20 L 84 72 Q 84 88 100 104 Q 108 112 116 108" stroke="#10262B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+                            <circle cx="8" cy="112" r="5" fill="#E9A13B"/>
+                            <text x="140" y="58" fill="#10262B" font-family="'Manrope'" font-size="24" font-weight="300" letter-spacing="0.6">learning</text>
+                            <text x="140" y="88" fill="#10262B" font-family="'Manrope'" font-size="32" font-weight="800" letter-spacing="-0.8">hub</text>
+                        </svg>
+                    </div>
+                    <h3>Horizontal Lockup</h3>
+                    <p>400×160px</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Brand Colors Section -->
+        <div class="section">
+            <h2>Brand Colors</h2>
+            <p>Official LearningHub color palette. Saffron appears once on the node only—that restraint is what makes it read as a deliberate point rather than decoration.</p>
+            <div class="color-palette">
+                <div class="color">
+                    <div class="color-swatch" style="background: #10262B;"></div>
+                    <div class="color-info">
+                        <h4>Ink Pine</h4>
+                        <p>#10262B</p>
+                    </div>
+                </div>
+                
+                <div class="color">
+                    <div class="color-swatch" style="background: #E9A13B;"></div>
+                    <div class="color-info">
+                        <h4>Saffron</h4>
+                        <p>#E9A13B</p>
+                    </div>
+                </div>
+                
+                <div class="color">
+                    <div class="color-swatch" style="background: #FAF8F5; border: 2px solid #10262B;"></div>
+                    <div class="color-info">
+                        <h4>Bone</h4>
+                        <p>#FAF8F5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Key Specifications -->
+        <div class="section">
+            <h2>Key Specifications</h2>
+            <div class="grid">
+                <div>
+                    <h3 style="color: #10262B; margin-bottom: 0.75rem;">Mark Design</h3>
+                    <ul style="color: #52657a; line-height: 1.8; padding-left: 1.5rem;">
+                        <li>Left stem curves away and drops below baseline</li>
+                        <li>S-curve crossbar connects both stems</li>
+                        <li>Right stem mirrors left with upward curve</li>
+                        <li>Saffron node at the end of left curl</li>
+                        <li>All strokes: round caps and joins</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 style="color: #10262B; margin-bottom: 0.75rem;">Usage Rules</h3>
+                    <ul style="color: #52657a; line-height: 1.8; padding-left: 1.5rem;">
+                        <li>✓ Scale both axes together (no stretching)</li>
+                        <li>✓ Minimum 16px on screen, 8mm in print</li>
+                        <li>✗ Don't use big master below 40px</li>
+                        <li>✗ Don't recolor stems</li>
+                        <li>✗ Don't add drop shadows or outlines</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -9,46 +9,52 @@ function Navbar() {
   return (
     <div id="navbar" className="navbar">
       <nav className="navbar-inner">
-        <div className="navbar-brand">
-          <div className="logo-placeholder" aria-label="Logo placeholder">LH</div>
-          <span>LMS</span>
-        </div>
-        <Link to="/" className="navbar-link">
-          Home
+        <Link to="/" className="navbar-brand" aria-label="LearningHub home page">
+          <img src="/learninghub-logo.svg" alt="LearningHub logo" className="brand-mark" />
+          <span className="brand-wordmark">
+            <span className="brand-light">learning</span>
+            <strong>hub</strong>
+          </span>
         </Link>
 
-        {!isAuthenticated && (
-          <>
-            <Link to="/register" className="navbar-link">
-              Register
-            </Link>
-            <Link to="/login" className="navbar-link">
-              Login
-            </Link>
-          </>
-        )}
+        <div className="nav-actions">
+          <Link to="/" className="navbar-link">
+            Home
+          </Link>
 
-        {isAuthenticated && (
-          <>
-            {showAddCourseLink && (
-              <Link to="/addCourse" className="navbar-link">
-                Add Course
+          {!isAuthenticated && (
+            <>
+              <Link to="/register" className="navbar-link">
+                Register
               </Link>
-            )}
-            {canAccessManageUsers(userRole) && (
-              <Link to="/manageUsers" className="navbar-link">
-                Manage Users
+              <Link to="/login" className="navbar-link">
+                Login
               </Link>
-            )}
-            <button type="button" className="navbar-link navbar-button" onClick={logout}>
-              Logout
-            </button>
-            <Link to="/profile" className="navbar-user" aria-label="Open your profile">
-              <span className="user-icon" aria-hidden="true">{user?.username?.charAt(0).toUpperCase()}</span>
-              <span>Hi, {user?.username}</span>
-            </Link>
-          </>
-        )}
+            </>
+          )}
+
+          {isAuthenticated && (
+            <>
+              {showAddCourseLink && (
+                <Link to="/addCourse" className="navbar-link">
+                  Add Course
+                </Link>
+              )}
+              {canAccessManageUsers(userRole) && (
+                <Link to="/manageUsers" className="navbar-link">
+                  Manage Users
+                </Link>
+              )}
+              <button type="button" className="navbar-link navbar-button" onClick={logout}>
+                Logout
+              </button>
+              <Link to="/profile" className="navbar-user" aria-label="Open your profile">
+                <span className="user-icon" aria-hidden="true">{user?.username?.charAt(0).toUpperCase()}</span>
+                <span>Hi, {user?.username}</span>
+              </Link>
+            </>
+          )}
+        </div>
       </nav>
     </div>
   );

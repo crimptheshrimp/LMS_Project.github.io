@@ -1,0 +1,21 @@
+<svg width="320" height="120" viewBox="0 0 320 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Brand lockup with mark and wordmark on Bone background -->
+  <rect width="320" height="120" rx="20" fill="#FAF8F5"/>
+  
+  <!-- Logo mark -->
+  <!-- Left stem with curl -->
+  <path d="M 32 16 L 32 60 Q 32 72 20 82 Q 14 87 8 84" stroke="#10262B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- S-curve crossbar -->
+  <path d="M 32 38 Q 50 26 68 38" stroke="#10262B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- Right stem -->
+  <path d="M 68 16 L 68 60 Q 68 72 80 82 Q 86 87 92 84" stroke="#10262B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- Saffron node -->
+  <circle cx="4" cy="88" r="4.5" fill="#E9A13B"/>
+  
+  <!-- Wordmark -->
+  <text x="120" y="48" fill="#10262B" font-family="'Manrope', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', sans-serif" font-size="18" font-weight="300" letter-spacing="0.4">learning</text>
+  <text x="120" y="75" fill="#10262B" font-family="'Manrope', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', sans-serif" font-size="24" font-weight="800" letter-spacing="-0.5">hub</text>
+</svg>

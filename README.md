@@ -122,4 +122,4 @@ npm test -- --watch=false --runInBand
 ```
 
 ## Notes
-This project is intentionally kept small and focused so it is easy to extend. It is structured to support a real teaching workflow without being overly complex for local development.
+This project is intentionally kept small and focused so it is easy to extend. It is structured to support a real teaching workflow without being overly complex for local development

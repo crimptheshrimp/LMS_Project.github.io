@@ -28,7 +28,14 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() in {'1', 'true', 'yes'}
 if DEBUG:
     SECRET_KEY = os.getenv('SECRET_KEY', 'local-development-only-secret-key')
 else:
-    SECRET_KEY = os.environ['SECRET_KEY']
+    SECRET_KEY = os.getenv('SECRET_KEY', '').strip()
+    secret_file = Path('/etc/secrets/SECRET_KEY')
+    if not SECRET_KEY and secret_file.is_file():
+        SECRET_KEY = secret_file.read_text().strip()
+    if not SECRET_KEY:
+        raise ImproperlyConfigured(
+            'SECRET_KEY must be set as an environment variable or /etc/secrets/SECRET_KEY.'
+        )
 
 
 def env_list(name, default):

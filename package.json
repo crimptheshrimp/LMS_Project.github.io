@@ -21,6 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:backend": "cd backendLms && python manage.py runserver",
+    "start:backend:prod": "cd backendLms && gunicorn backendLms.wsgi:application",
     "start:frontend": "react-scripts start",
     "dev": "concurrently --kill-others-on-fail \"npm run start:backend\" \"npm run start:frontend\"",
     "build": "react-scripts build",

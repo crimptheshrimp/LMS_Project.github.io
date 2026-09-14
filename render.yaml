@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: learninghub-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt && python backendLms/manage.py collectstatic --noinput
+    startCommand: python backendLms/manage.py migrate && gunicorn --chdir backendLms backendLms.wsgi:application
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: DJANGO_ALLOWED_HOSTS
+        sync: false
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        sync: false

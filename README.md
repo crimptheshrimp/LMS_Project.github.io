@@ -5,6 +5,8 @@ A small learning management system for a teaching environment with students, ins
 ## What it does
 - Students can register, sign in, view courses, and enroll in classes.
 - Instructors can create new courses and keep the catalog current.
+- Instructors and administrators can edit courses and see the students enrolled in each course.
+- Students can use My Courses to view every course in which they are enrolled.
 - Administrators can review users and update roles within the system.
 - The frontend and backend communicate through a lightweight REST API.
 
@@ -65,7 +67,7 @@ source .venv/bin/activate
 
 ### 2. Install backend dependencies
 ```bash
-pip install django djangorestframework
+pip install -r requirements.txt
 ```
 
 ### 3. Apply database migrations
@@ -98,6 +100,29 @@ The app will normally run at:
 http://localhost:3000
 ```
 
+## Production deployment
+
+Set these environment variables in the hosting provider. Do not commit their values:
+
+```text
+DJANGO_DEBUG=False
+SECRET_KEY=<long-random-production-secret>
+DATABASE_URL=<production-database-url>
+DJANGO_ALLOWED_HOSTS=<api-domain>
+DJANGO_CSRF_TRUSTED_ORIGINS=https://<frontend-domain>
+```
+
+Configure the provider to run these commands from the repository root:
+
+```bash
+python backendLms/manage.py migrate
+python backendLms/manage.py collectstatic --noinput
+gunicorn --chdir backendLms backendLms.wsgi:application
+```
+
+The production settings require `SECRET_KEY` and `DATABASE_URL`, enable HTTPS-only
+cookies and redirects, and configure WhiteNoise for collected static files.
+
 ## Key API routes
 - `POST /api/register/` — create a user account
 - `POST /api/login/` — sign in
@@ -105,7 +130,12 @@ http://localhost:3000
 - `GET /api/auth/user/` — get the current user
 - `GET /api/courses/` — list available courses
 - `POST /api/courses/` — create a course
+- `GET /api/managed-courses/` — list manageable courses with enrolled students for instructors/admins
+- `PATCH /api/courses/<id>/` — edit a course as its instructor or an administrator
 - `POST /api/courses/<id>/enroll/` — enroll a student
+- `GET /api/students/enrollments/` — list the signed-in student's enrolled courses
+
+Course create and update notifications include the course title, estimated length, and subject tags.
 
 ## Testing
 

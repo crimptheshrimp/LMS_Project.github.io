@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { canAccessAddCourse, canAccessManageUsers } from './permissions';
+import { canAccessAddCourse, canAccessManageCourses } from './permissions';
 
 function Navbar() {
   const { user, userRole, isAuthenticated, logout } = useAuth();
   const showAddCourseLink = canAccessAddCourse(userRole);
+  const showCourseManagementLink = canAccessManageCourses(userRole);
 
   return (
     <div id="navbar" className="navbar">
@@ -34,12 +35,22 @@ function Navbar() {
 
           {isAuthenticated && (
             <>
+              {userRole === 'student' && (
+                <Link to="/enrolledCourses" className="navbar-link">
+                  My Courses
+                </Link>
+              )}
               {showAddCourseLink && (
                 <Link to="/addCourse" className="navbar-link">
                   Add Course
                 </Link>
               )}
-              {canAccessManageUsers(userRole) && (
+              {showCourseManagementLink && (
+                <Link to="/manageCourses" className="navbar-link">
+                  Manage Courses
+                </Link>
+              )}
+              {userRole === 'admin' && (
                 <Link to="/manageUsers" className="navbar-link">
                   Manage Users
                 </Link>

@@ -11,6 +11,8 @@ const Register = lazy(() => import('./features/register'));
 const AddCourse = lazy(() => import('./features/addCourse'));
 const Profile = lazy(() => import('./features/profile'));
 const ManageUsers = lazy(() => import('./features/manageUsers'));
+const EnrolledCourses = lazy(() => import('./features/enrolledCourses'));
+const ManageCourses = lazy(() => import('./features/manageCourses'));
 
 function App() {
   return (
@@ -35,6 +37,22 @@ function App() {
               element={
                 <RequireAuth>
                   <Profile />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/enrolledCourses"
+              element={
+                <RequireAuth allowedRoles={['student']}>
+                  <EnrolledCourses />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/manageCourses"
+              element={
+                <RequireAuth allowedRoles={['instructor', 'admin']}>
+                  <ManageCourses />
                 </RequireAuth>
               }
             />

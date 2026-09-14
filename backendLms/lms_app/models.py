@@ -31,6 +31,7 @@ class SubjectTag(models.Model):
 class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    estimated_length = models.DecimalField(max_digits=6, decimal_places=1, default=0)
     instructor = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,

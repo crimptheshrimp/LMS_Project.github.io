@@ -32,6 +32,8 @@ const CourseView = ({ courses = [] }) => {
           <h3>{course.title}</h3>
           <p>{course.description}</p>
           <p>Instructor: {course.instructor}</p>
+          <p>Length: {course.estimated_length || 0} hours</p>
+          {course.tags?.length > 0 && <p>Tags: {course.tags.join(', ')}</p>}
 
           {isAuthenticated && userRole === 'student' && (
             <>

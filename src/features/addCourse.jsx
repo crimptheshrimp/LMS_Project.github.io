@@ -37,6 +37,7 @@ export default function AddCourse() {
       const data = await createCourse({
         title: courseTitle,
         description,
+        estimated_length: estimatedLength || 0,
         tags,
       });
 

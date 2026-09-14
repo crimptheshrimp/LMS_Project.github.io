@@ -307,6 +307,22 @@
   color: var(--muted);
 }
 
+.admin-password-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5edf8;
+}
+
+.admin-password-section h2 {
+  margin: 0 0 0.6rem;
+  color: var(--ink-pine);
+  font-size: 1.3rem;
+}
+
+.admin-reset-row {
+  grid-template-columns: 1fr minmax(180px, 0.7fr) auto;
+}
+
 .manage-users-wrapper {
   max-width: 900px;
 }
@@ -513,6 +529,59 @@
   font-style: normal;
 }
 
+.manage-courses-wrapper {
+  max-width: 1050px;
+}
+
+.management-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.management-course {
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid #e1eaf8;
+  border-radius: 16px;
+}
+
+.management-course-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.management-course h2,
+.management-course p {
+  margin: 0 0 0.55rem;
+}
+
+.management-course h2 {
+  color: var(--ink-pine);
+  font-size: 1.25rem;
+}
+
+.management-course p {
+  color: var(--muted);
+}
+
+.enrolled-students {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e1eaf8;
+}
+
+.enrolled-students ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
+  margin: 0.65rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+}
+
 .navbar {
   background: linear-gradient(180deg, rgba(248, 250, 249, 0.98), rgba(236, 243, 244, 0.96));
   border-bottom: 1px solid rgba(16, 38, 43, 0.12);
@@ -664,6 +733,14 @@
 
   .user-row {
     grid-template-columns: 1fr;
+  }
+
+  .admin-reset-row {
+    grid-template-columns: 1fr;
+  }
+
+  .management-course-header {
+    flex-direction: column;
   }
 }
 

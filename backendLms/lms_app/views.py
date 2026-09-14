@@ -19,12 +19,19 @@ from .serializers import (
     UserProfileSerializer,
     NotificationSerializer,
     UserRoleSerializer,
+    ManagedCourseSerializer,
+    UserAccountUpdateSerializer,
 )
 
 
 def course_terms(course):
     words = f"{course.title} {course.description}".lower().split()
     return {word.strip(".,!?;:") for word in words if len(word.strip(".,!?;:")) > 3}
+
+
+def course_notification_message(prefix, course):
+    tags = ", ".join(course.tags.values_list("name", flat=True)) or "No tags"
+    return f"{prefix}: {course.title} | {course.estimated_length:g} hours | Tags: {tags}."
 
 
 class IsInstructorOrAdmin(permissions.BasePermission):
@@ -155,11 +162,27 @@ class NotificationDetailView(generics.RetrieveUpdateAPIView):
 
 
 class UserManagementView(generics.ListAPIView):
-    permission_classes = [IsAdmin]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserProfileSerializer
 
     def get_queryset(self):
+        if self.request.user.role != "admin":
+            return CustomUser.objects.filter(pk=self.request.user.pk)
         return CustomUser.objects.all().order_by("username")
+
+
+class UserAccountUpdateView(generics.UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserAccountUpdateSerializer
+    queryset = CustomUser.objects.all()
+    http_method_names = ["patch"]
+
+    def get_object(self):
+        user = super().get_object()
+        can_reset_non_admin = self.request.user.role == "admin" and user.role != "admin"
+        if user.pk != self.request.user.pk and not can_reset_non_admin:
+            self.permission_denied(self.request, message="You can only update your own account or reset a non-admin account.")
+        return user
 
 
 class UserRoleUpdateView(generics.UpdateAPIView):
@@ -193,20 +216,32 @@ class CourseListView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(instructor=request.user)
         course = serializer.instance
+        message = course_notification_message("New course", course)
         recipients = CustomUser.objects.filter(role__in=["instructor", "admin"]).exclude(pk=request.user.pk)
         Notification.objects.bulk_create(
-            [Notification(recipient=user, message=f"New course available: {course.title}.") for user in recipients]
+            [Notification(recipient=user, message=message) for user in recipients]
         )
         enrolled_students = CustomUser.objects.filter(enrollments__course__isnull=False).prefetch_related("enrollments__course").distinct()
         Notification.objects.bulk_create(
             [
-                Notification(recipient=student, message=f"New course related to your current learning: {course.title}.")
+                Notification(recipient=student, message=message)
                 for student in enrolled_students
                 if any(course_terms(course) & course_terms(current.course) for current in student.enrollments.all())
             ]
         )
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class ManagedCourseListView(generics.ListAPIView):
+    serializer_class = ManagedCourseSerializer
+    permission_classes = [IsInstructorOrAdmin]
+
+    def get_queryset(self):
+        queryset = Course.objects.prefetch_related("tags", "enrolled_students__student")
+        if self.request.user.role == "instructor":
+            return queryset.filter(instructor=self.request.user)
+        return queryset
 
 
 class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -222,6 +257,15 @@ class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
         super().check_object_permissions(request, obj)
         if request.method in {"PUT", "PATCH", "DELETE"} and not IsCourseEditor().has_object_permission(request, self, obj):
             self.permission_denied(request, message="You can only alter your own courses.")
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        message = course_notification_message("Course updated", course)
+        recipients = CustomUser.objects.filter(role__in=["instructor", "admin"]).exclude(pk=self.request.user.pk)
+        enrolled_students = CustomUser.objects.filter(enrollments__course=course).distinct()
+        Notification.objects.bulk_create(
+            [Notification(recipient=user, message=message) for user in recipients.union(enrolled_students)]
+        )
 
 
 class CourseEnrollView(APIView):
@@ -273,6 +317,8 @@ class StudentEnrollmentsView(APIView):
                     "id": enrollment.course.id,
                     "title": enrollment.course.title,
                     "description": enrollment.course.description,
+                    "estimated_length": enrollment.course.estimated_length,
+                    "tags": list(enrollment.course.tags.values_list("name", flat=True)),
                     "instructor": str(enrollment.course.instructor),
                     "enrolled_at": enrollment.enrolled_at.isoformat(),
                 }

@@ -8,6 +8,7 @@ from .views import (
     CurrentUserView,
     LectureCourseListView,
     LoginView,
+    ManagedCourseListView,
     LogoutView,
     QuizCourseListView,
     RegisterView,
@@ -16,6 +17,7 @@ from .views import (
     NotificationListView,
     NotificationDetailView,
     UserManagementView,
+    UserAccountUpdateView,
     UserRoleUpdateView,
 )
 
@@ -28,8 +30,10 @@ urlpatterns = [
     path("notifications/", NotificationListView.as_view(), name="notifications"),
     path("notifications/<int:pk>/", NotificationDetailView.as_view(), name="notification-detail"),
     path("users/", UserManagementView.as_view(), name="user-management"),
+    path("users/<int:pk>/account/", UserAccountUpdateView.as_view(), name="user-account-update"),
     path("users/<int:pk>/role/", UserRoleUpdateView.as_view(), name="user-role-update"),
     path("courses/", CourseListView.as_view(), name="courses"),
+    path("managed-courses/", ManagedCourseListView.as_view(), name="managed-courses"),
     path("courses/<int:pk>/", CourseDetailView.as_view(), name="course-detail"),
     path("courses/<int:pk>/enroll/", CourseEnrollView.as_view(), name="course-enroll"),
     path("students/enrollments/", StudentEnrollmentsView.as_view(), name="student-enrollments"),

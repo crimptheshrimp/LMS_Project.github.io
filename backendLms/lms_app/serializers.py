@@ -34,6 +34,32 @@ class UserRoleSerializer(serializers.ModelSerializer):
         fields = ("id", "username", "email", "role")
 
 
+class UserAccountUpdateSerializer(serializers.ModelSerializer):
+    current_password = serializers.CharField(write_only=True, required=False)
+    new_password = serializers.CharField(write_only=True, required=False, min_length=8)
+
+    class Meta:
+        model = CustomUser
+        fields = ("id", "username", "email", "mobile_number", "interests", "age", "role", "current_password", "new_password")
+        read_only_fields = ("id", "role")
+
+    def validate(self, attrs):
+        if "new_password" in attrs:
+            current_password = attrs.get("current_password")
+            request = self.context.get("request")
+            is_admin_reset = request and request.user.role == "admin" and request.user.pk != self.instance.pk and self.instance.role != "admin"
+            if not is_admin_reset and (not current_password or not self.instance.check_password(current_password)):
+                raise serializers.ValidationError({"current_password": "Enter your current password to set a new password."})
+        return attrs
+
+    def update(self, instance, validated_data):
+        validated_data.pop("current_password", None)
+        new_password = validated_data.pop("new_password", None)
+        if new_password:
+            instance.set_password(new_password)
+        return super().update(instance, validated_data)
+
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
@@ -56,7 +82,20 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ("id", "title", "description", "instructor", "created_at", "tags")
+        fields = ("id", "title", "description", "estimated_length", "instructor", "created_at", "tags")
+
+
+class ManagedCourseSerializer(CourseSerializer):
+    enrolled_students = serializers.SerializerMethodField()
+
+    class Meta(CourseSerializer.Meta):
+        fields = CourseSerializer.Meta.fields + ("enrolled_students",)
+
+    def get_enrolled_students(self, course):
+        return [
+            {"id": enrollment.student_id, "username": enrollment.student.username}
+            for enrollment in course.enrolled_students.select_related("student").all()
+        ]
 
 
 class LectureCourseSerializer(serializers.ModelSerializer):

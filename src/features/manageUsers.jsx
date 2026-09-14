@@ -36,16 +36,16 @@ function ManageUsers() {
       {error && <p className="error" role="alert">{error}</p>}
       {!loading && !error && (
         <div className="user-table" role="table" aria-label="Users">
-          {users.map((user) => (
-            <div className="user-row" role="row" key={user.id}>
+          {users.map((account) => (
+            <div className="user-row" role="row" key={account.id}>
               <div>
-                <strong>{user.username}</strong>
-                <span>{user.email || 'No email provided'}</span>
+                <strong>{account.username}</strong>
+                <span>{account.email || 'No email provided'}</span>
               </div>
-              <span className="user-role">{user.role}</span>
+              <span className="user-role">{account.role}</span>
               <div className="user-actions">
-                <button type="button" className="secondary-button" disabled={savingId === user.id || user.role === 'instructor'} onClick={() => promoteUser(user.id, 'instructor')}>Teacher</button>
-                <button type="button" className="secondary-button" disabled={savingId === user.id || user.role === 'admin'} onClick={() => promoteUser(user.id, 'admin')}>Admin</button>
+                <button type="button" className="secondary-button" disabled={savingId === account.id || account.role === 'instructor'} onClick={() => promoteUser(account.id, 'instructor')}>Teacher</button>
+                <button type="button" className="secondary-button" disabled={savingId === account.id || account.role === 'admin'} onClick={() => promoteUser(account.id, 'admin')}>Admin</button>
               </div>
             </div>
           ))}

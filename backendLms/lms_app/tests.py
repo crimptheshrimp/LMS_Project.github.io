@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import AssignmentCourse, Course, Enrollment, LectureCourse, QuizCourse
+from .models import AssignmentCourse, Course, Enrollment, LectureCourse, Notification, QuizCourse, SubjectTag
 
 
 class LMSModelTests(TestCase):
@@ -145,3 +145,102 @@ class LMSModelTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.json()[0]["title"], "Python for Beginners")
+
+    def test_instructor_can_view_students_and_update_course(self):
+        instructor = get_user_model().objects.create_user(
+            username="course-owner",
+            password="testpass123",
+            role="instructor",
+        )
+        student = get_user_model().objects.create_user(
+            username="enrolled-student",
+            password="testpass123",
+            role="student",
+        )
+        tag, _ = SubjectTag.objects.get_or_create(name="Science")
+        course = Course.objects.create(
+            title="Original title",
+            description="Original description",
+            instructor=instructor,
+            estimated_length=2,
+        )
+        course.tags.add(tag)
+        Enrollment.objects.create(student=student, course=course)
+        self.client.force_login(instructor)
+
+        managed_response = self.client.get(reverse("managed-courses"))
+        self.assertEqual(managed_response.status_code, 200)
+        self.assertEqual(managed_response.json()[0]["enrolled_students"][0]["username"], "enrolled-student")
+
+        update_response = self.client.patch(
+            reverse("course-detail", kwargs={"pk": course.pk}),
+            {"title": "Updated title", "estimated_length": 3.5, "tags": ["Science"]},
+            content_type="application/json",
+        )
+        self.assertEqual(update_response.status_code, 200)
+        self.assertTrue(Notification.objects.filter(recipient=student, message__contains="Updated title").exists())
+        self.assertTrue(Notification.objects.filter(recipient=student, message__contains="3.5 hours").exists())
+        self.assertTrue(Notification.objects.filter(recipient=student, message__contains="Science").exists())
+
+    def test_user_must_verify_current_password_before_changing_password(self):
+        user = get_user_model().objects.create_user(
+            username="account-owner",
+            password="oldpass123",
+            role="student",
+        )
+        self.client.force_login(user)
+
+        rejected_response = self.client.patch(
+            reverse("user-account-update", kwargs={"pk": user.pk}),
+            {"username": "new-name", "current_password": "wrongpass", "new_password": "newpass123"},
+            content_type="application/json",
+        )
+        self.assertEqual(rejected_response.status_code, 400)
+        user.refresh_from_db()
+        self.assertEqual(user.username, "account-owner")
+        self.assertTrue(user.check_password("oldpass123"))
+
+        accepted_response = self.client.patch(
+            reverse("user-account-update", kwargs={"pk": user.pk}),
+            {"username": "new-name", "current_password": "oldpass123", "new_password": "newpass123"},
+            content_type="application/json",
+        )
+        self.assertEqual(accepted_response.status_code, 200)
+        user.refresh_from_db()
+        self.assertEqual(user.username, "new-name")
+        self.assertTrue(user.check_password("newpass123"))
+
+    def test_user_cannot_update_another_users_account(self):
+        user = get_user_model().objects.create_user(username="first-user", password="testpass123")
+        other_user = get_user_model().objects.create_user(username="second-user", password="testpass123")
+        self.client.force_login(user)
+
+        response = self.client.patch(
+            reverse("user-account-update", kwargs={"pk": other_user.pk}),
+            {"username": "not-allowed"},
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_admin_can_reset_non_admin_password_but_not_admin_password(self):
+        admin = get_user_model().objects.create_user(username="admin-one", password="testpass123", role="admin")
+        instructor = get_user_model().objects.create_user(username="teacher-one", password="oldpass123", role="instructor")
+        other_admin = get_user_model().objects.create_user(username="admin-two", password="adminpass123", role="admin")
+        self.client.force_login(admin)
+
+        reset_response = self.client.patch(
+            reverse("user-account-update", kwargs={"pk": instructor.pk}),
+            {"new_password": "newpass123"},
+            content_type="application/json",
+        )
+        self.assertEqual(reset_response.status_code, 200)
+        instructor.refresh_from_db()
+        self.assertTrue(instructor.check_password("newpass123"))
+
+        blocked_response = self.client.patch(
+            reverse("user-account-update", kwargs={"pk": other_admin.pk}),
+            {"new_password": "notallowed123"},
+            content_type="application/json",
+        )
+        self.assertEqual(blocked_response.status_code, 403)

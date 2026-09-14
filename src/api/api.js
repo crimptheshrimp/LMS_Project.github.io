@@ -84,7 +84,11 @@ export const updateProfile = (payload) => request('/profile/', { method: 'PATCH'
 export const fetchNotifications = () => request('/notifications/');
 export const markNotificationRead = (notificationId) => request(`/notifications/${notificationId}/`, { method: 'PATCH', body: JSON.stringify({ read: true }) });
 export const fetchUsers = () => request('/users/');
+export const updateUserAccount = (userId, payload) => request(`/users/${userId}/account/`, { method: 'PATCH', body: JSON.stringify(payload) });
 export const updateUserRole = (userId, role) => request(`/users/${userId}/role/`, { method: 'PATCH', body: JSON.stringify({ role }) });
 export const fetchCourses = () => request('/courses/');
 export const createCourse = (payload) => request('/courses/', { method: 'POST', body: JSON.stringify(payload) });
+export const fetchManagedCourses = () => request('/managed-courses/');
+export const updateCourse = (courseId, payload) => request(`/courses/${courseId}/`, { method: 'PATCH', body: JSON.stringify(payload) });
+export const fetchStudentEnrollments = () => request('/students/enrollments/');
 export const enrollInCourse = (courseId) => request(`/courses/${courseId}/enroll/`, { method: 'POST' });

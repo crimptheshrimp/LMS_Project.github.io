@@ -105,9 +105,20 @@ WSGI_APPLICATION = 'backendLms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-database_url = os.getenv('DATABASE_URL')
+database_url = os.getenv('DATABASE_URL', '').strip()
+database_url_file = Path('/etc/secrets/DATABASE_URL')
+if not database_url and database_url_file.is_file():
+    database_url = database_url_file.read_text().strip()
 if not DEBUG and not database_url:
-    raise ImproperlyConfigured('DATABASE_URL must be set when DJANGO_DEBUG is false.')
+    raise ImproperlyConfigured(
+        'DATABASE_URL must be set as an environment variable or /etc/secrets/DATABASE_URL.'
+    )
+
+if not DEBUG and '://' not in database_url:
+    raise ImproperlyConfigured(
+        'DATABASE_URL must be a PostgreSQL connection URL, for example '
+        'postgresql://user:password@host:5432/database.'
+    )
 
 DATABASES = {
     'default': dj_database_url.config(

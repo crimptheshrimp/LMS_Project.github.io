@@ -65,6 +65,16 @@ On macOS/Linux:
 source .venv/bin/activate
 ```
 
+Enable debug mode for local development:
+On Windows:
+```bash
+set DJANGO_DEBUG=True
+```
+On macOS/Linux:
+```bash
+export DJANGO_DEBUG=True
+```
+
 ### 2. Install backend dependencies
 ```bash
 pip install -r requirements.txt

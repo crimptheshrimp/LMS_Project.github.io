@@ -1,0 +1,20 @@
+<svg width="400" height="160" viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Horizontal lockup: mark + wordmark -->
+  
+  <!-- Logo mark (Big Master style) -->
+  <!-- Left stem with a reversed, shortened curl -->
+  <path d="M 44 20 L 44 72 Q 44 86 54 92 Q 62 97 70 92" stroke="#10262B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- S-curve crossbar -->
+  <path d="M 44 44 Q 64 28 84 44" stroke="#10262B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- Right stem is shortened to about two-thirds while keeping the top anchored -->
+  <path d="M 84 20 L 84 78" stroke="#10262B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-miterlimit="10"/>
+  
+  <!-- Saffron node at the left curl end -->
+  <circle cx="74" cy="92" r="5" fill="#E9A13B"/>
+  
+  <!-- Wordmark -->
+  <text x="140" y="58" fill="#10262B" font-family="'Manrope', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', sans-serif" font-size="24" font-weight="300" letter-spacing="0.6">learning</text>
+  <text x="140" y="88" fill="#10262B" font-family="'Manrope', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', sans-serif" font-size="32" font-weight="800" letter-spacing="-0.8">hub</text>
+</svg>

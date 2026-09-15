@@ -1,0 +1,25 @@
+{
+  "short_name": "LearningHub",
+  "name": "LearningHub LMS",
+  "icons": [
+    {
+      "src": "learninghub-icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "96x96"
+    },
+    {
+      "src": "learninghub-mark-small.svg",
+      "type": "image/svg+xml",
+      "sizes": "64x64"
+    },
+    {
+      "src": "learninghub-logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#10262B",
+  "background_color": "#FAF8F5"
+}

@@ -3,7 +3,7 @@ services:
     name: learninghub-api
     runtime: python
     buildCommand: npm install && npm run build && pip install -r requirements.txt && python backendLms/manage.py collectstatic --noinput
-    startCommand: python backendLms/manage.py migrate && gunicorn --chdir backendLms backendLms.wsgi:application
+    startCommand: if [ ! -f build/index.html ]; then npm ci && npm run build && python backendLms/manage.py collectstatic --noinput; fi && python backendLms/manage.py migrate && gunicorn --chdir backendLms backendLms.wsgi:application
     envVars:
       - key: DJANGO_DEBUG
         value: "False"

@@ -17,10 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.http import FileResponse
 from django.urls import include, path, re_path
+from django.views.static import serve
 from pathlib import Path
 
 
-FRONTEND_INDEX = Path(__file__).resolve().parents[2] / 'build' / 'index.html'
+FRONTEND_ROOT = Path(__file__).resolve().parents[2] / 'build'
+FRONTEND_INDEX = FRONTEND_ROOT / 'index.html'
 
 
 def frontend(request):
@@ -30,5 +32,11 @@ def frontend(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('lms_app.urls')),
+    re_path(
+        r'^(?P<path>[^/]+\.(?:svg|png|ico|json|txt))$',
+        serve,
+        {'document_root': FRONTEND_ROOT},
+        name='frontend-asset',
+    ),
     re_path(r'^(?!api(?:/|$)|admin(?:/|$)|static(?:/|$)).*$', frontend, name='frontend'),
 ]

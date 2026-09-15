@@ -15,16 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.http import JsonResponse
-from django.urls import include, path
+from django.http import FileResponse
+from django.urls import include, path, re_path
+from pathlib import Path
 
 
-def health_check(request):
-    return JsonResponse({'status': 'ok'})
+FRONTEND_INDEX = Path(__file__).resolve().parents[2] / 'build' / 'index.html'
+
+
+def frontend(request):
+    return FileResponse(FRONTEND_INDEX.open('rb'), content_type='text/html')
 
 
 urlpatterns = [
-    path('', health_check, name='health-check'),
     path('admin/', admin.site.urls),
     path('api/', include('lms_app.urls')),
+    re_path(r'^(?!api(?:/|$)|admin(?:/|$)|static(?:/|$)).*$', frontend, name='frontend'),
 ]

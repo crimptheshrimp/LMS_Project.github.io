@@ -2,7 +2,7 @@ services:
   - type: web
     name: learninghub-api
     runtime: python
-    buildCommand: pip install -r requirements.txt && python backendLms/manage.py collectstatic --noinput
+    buildCommand: npm install && npm run build && pip install -r requirements.txt && python backendLms/manage.py collectstatic --noinput
     startCommand: python backendLms/manage.py migrate && gunicorn --chdir backendLms backendLms.wsgi:application
     envVars:
       - key: DJANGO_DEBUG

@@ -161,5 +161,18 @@ cd ..
 npm test -- --watch=false --runInBand
 ```
 
+### Standards validation
+```bash
+npm run validate:html
+npm run validate:css
+```
+
+Run the complete validation and test workflow with:
+```bash
+npm run validate
+```
+
+HTML is checked through the W3C Nu validator, and CSS is checked through the W3C Jigsaw validator. The HTML targets include the public entry point and the standalone preview/specification pages; CSS targets include the source stylesheets.
+
 ## Notes
 This project is intentionally kept small and focused so it is easy to extend. It is structured to support a real teaching workflow without being overly complex for local development

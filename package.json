@@ -26,6 +26,11 @@
     "dev": "concurrently --kill-others-on-fail \"npm run start:backend\" \"npm run start:frontend\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:frontend": "react-scripts test --watchAll=false --runInBand",
+    "test:backend": "node scripts/run-django-tests.mjs",
+    "validate:html": "node scripts/validate-standards.mjs html",
+    "validate:css": "node scripts/validate-standards.mjs css",
+    "validate": "npm run validate:html && npm run validate:css && npm run test:frontend && npm run test:backend",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
